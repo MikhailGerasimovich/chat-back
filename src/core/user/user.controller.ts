@@ -1,9 +1,10 @@
 import { Controller, Get, HttpCode, HttpStatus, Param, Query, UseGuards } from '@nestjs/common';
 
+import { JwtAuthGuard } from './../../common';
+
 import { UserService } from './user.service';
 import { FindAllUserDto } from './dto';
 import { UserResponse } from './types';
-import { JwtAuthGuard } from 'src/common';
 
 @UseGuards(JwtAuthGuard)
 @Controller('user')
