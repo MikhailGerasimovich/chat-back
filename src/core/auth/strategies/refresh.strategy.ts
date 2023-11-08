@@ -1,13 +1,12 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { ConfigService } from '@nestjs/config';
 
-import { Payload } from '../types';
-import { Cookie } from '../constants';
+import { Cookie, Payload } from './../../../common';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class RefreshStrategy extends PassportStrategy(Strategy, 'refresh') {
   constructor(private readonly config: ConfigService) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
@@ -17,17 +16,17 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
           if (!data) {
             return null;
           }
-          return data.accessToken;
+          return data.refreshToken;
         },
       ]),
       ignoreExpiration: false,
-      secretOrKey: config.get('ACCESS_SECRET'),
+      secretOrKey: config.get('REFRESH_SECRET'),
     });
   }
 
   public async validate(payload: Payload) {
     if (!payload) {
-      throw new UnauthorizedException('Missing access jwt');
+      throw new UnauthorizedException('Missing refresh jwt');
     }
     return payload;
   }

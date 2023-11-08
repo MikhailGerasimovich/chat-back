@@ -4,4 +4,8 @@ export class Payload {
   @IsString()
   @IsNotEmpty()
   sub: string;
+
+  @IsString()
+  @IsNotEmpty()
+  role: string;
 }

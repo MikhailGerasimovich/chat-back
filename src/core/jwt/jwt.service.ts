@@ -26,4 +26,16 @@ export class JwtService {
     });
     return refreshToken;
   }
+
+  async verifyRefreshJwt(refreshToken: string): Promise<boolean> {
+    try {
+      await this.nestJwtService.verifyAsync(refreshToken, {
+        secret: this.config.get('REFRESH_SECRET'),
+        ignoreExpiration: false,
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }

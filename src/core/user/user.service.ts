@@ -28,6 +28,12 @@ export class UserService {
     return await this.userModel.create(user);
   }
 
+  async setRefreshToken(userId: string, resreshToken: string): Promise<void> {
+    const user = await this.userModel.findById(userId);
+    user.refreshToken = resreshToken;
+    await user.save();
+  }
+
   private getFindAllFilter(findAllUserDto: FindAllUserDto) {
     const filter = {};
     if (findAllUserDto.username) {
